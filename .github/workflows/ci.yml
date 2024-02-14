@@ -1,0 +1,13 @@
+name: Continous Integration
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Run The Docs Downloader
+      uses: treideme/readme-downloader@master
+      with:
+        path: 'docs'
+        token: ${{ secrets.README_TOKEN }}

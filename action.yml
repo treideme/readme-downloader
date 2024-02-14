@@ -1,0 +1,19 @@
+name: 'Fetch Readme.io Documentation'
+description: 'Fetches Readme.io documentation and writes it to a local directory'
+author: 'Thomas Reidemeister'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - '--path'
+    - '${{ inputs.path }}'
+    - '--token'
+    - '${{ inputs.token }}'
+inputs:
+  path:
+    description: 'The parent path where the markdown files will be written'
+    required: false
+    default: 'docs'
+  token:
+    description: 'The Readme.io API token'
+    required: true
