@@ -3,7 +3,7 @@
 [![Continous Integration](https://github.com/treideme/readme-downloader/actions/workflows/ci.yml/badge.svg)](https://github.com/treideme/readme-downloader/actions/workflows/ci.yml)
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
 [![GitHub](https://img.shields.io/github/license/treideme/readme-downloader)](LICENSE.md)
-[![GitHub issues](https://img.shields.io/github/issues/treideme/readme-downloader)](
+[![GitHub issues](https://img.shields.io/github/issues/treideme/readme-downloader)](https://github.com/treideme/readme-downloader/issues)
 
 This script will download all the documentation / guides and readme-stored images to
 a directory of your choice.
