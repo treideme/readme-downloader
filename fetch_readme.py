@@ -118,15 +118,30 @@ def get_document_details(slug):
     return None
 
 
+def process_markdown_links(markdown_content):
+    # Regular expression to match markdown links of the form [description](link)
+    link_pattern = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
+
+    def append_md_suffix(match):
+        text, link = match.groups()
+        # Check if the link is relative (doesn't start with http(s) and doesn't contain a file extension)
+        if not link.startswith(('http:', 'https:')) and not '.' in link.split('/')[-1]:
+            link += '.md'
+        return f'[{text}]({link})'
+
+    # Replace links in the markdown content using the append_md_suffix function
+    processed_content = link_pattern.sub(append_md_suffix, markdown_content)
+    return processed_content
+
+
 def download_doc(cat_path, doc):
     item = get_document_details(doc['slug'])
-    # from pprint import pprint ; import pdb; pdb.set_trace()
     file_path = cat_path / Path(doc["slug"] + ".md")
     file_path.parent.mkdir(parents=True, exist_ok=True)
     print(f" * Title: {item['title']}, Slug: {item['slug']}")
     with file_path.open("w") as file:
         file.write(f"# {item['title']}\n\n---\n\n")
-        body = replace_image_blocks_in_markdown(item["body"], file_path.parent)
+        body = process_markdown_links(replace_image_blocks_in_markdown(item["body"], file_path.parent))
         file.write(body)
     # Recurse into children
     for child in doc["children"]:
