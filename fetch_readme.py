@@ -129,7 +129,7 @@ def download_doc(cat_path, doc):
         body = replace_image_blocks_in_markdown(item["body"], file_path.parent)
         file.write(body)
     # Recurse into children
-    for child in item["children"]:
+    for child in doc["children"]:
         download_doc(cat_path, child)
 
 def main(parent_path):
