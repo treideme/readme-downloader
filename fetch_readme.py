@@ -124,6 +124,9 @@ def process_markdown_links(markdown_content):
 
     def append_md_suffix(match):
         text, link = match.groups()
+        # treat document references as relative links
+        if link.startswith("doc:"):
+            link = link[4:]
         # Check if the link is relative (doesn't start with http(s) and doesn't contain a file extension)
         if not link.startswith(('http:', 'https:')) and not '.' in link.split('/')[-1]:
             link += '.md'
