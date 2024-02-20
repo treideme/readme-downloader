@@ -118,6 +118,20 @@ def get_document_details(slug):
     return None
 
 
+def download_doc(cat_path, doc):
+    item = get_document_details(doc['slug'])
+    # from pprint import pprint ; import pdb; pdb.set_trace()
+    file_path = cat_path / Path(doc["slug"] + ".md")
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+    print(f" * Title: {item['title']}, Slug: {item['slug']}")
+    with file_path.open("w") as file:
+        file.write(f"# {item['title']}\n\n---\n\n")
+        body = replace_image_blocks_in_markdown(item["body"], file_path.parent)
+        file.write(body)
+    # Recurse into children
+    for child in item["children"]:
+        download_doc(cat_path, child)
+
 def main(parent_path):
     for category in get_categories():
         print(f"Category: {category['title']}, Slug: {category['slug']}, Order: {category['order']}")
@@ -126,15 +140,7 @@ def main(parent_path):
 
         docs = get_all_documents_for_cat(category['slug'])
         for doc in docs:
-            item = get_document_details(doc["slug"])
-            # from pprint import pprint ; import pdb; pdb.set_trace()
-            file_path = cat_path / Path(doc["slug"] + ".md")
-            file_path.parent.mkdir(parents=True, exist_ok=True)
-            print(f" * Title: {item['title']}, Slug: {item['slug']}")
-            with file_path.open("w") as file:
-                file.write(f"# {item['title']}\n\n---\n\n")
-                body = replace_image_blocks_in_markdown(item["body"], file_path.parent)
-                file.write(body)
+            download_doc(cat_path, doc["slug"])
 
 
 if __name__ == '__main__':
