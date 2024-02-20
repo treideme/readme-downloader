@@ -140,7 +140,7 @@ def main(parent_path):
 
         docs = get_all_documents_for_cat(category['slug'])
         for doc in docs:
-            download_doc(cat_path, doc["slug"])
+            download_doc(cat_path, doc)
 
 
 if __name__ == '__main__':
