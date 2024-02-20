@@ -127,9 +127,18 @@ def process_markdown_links(markdown_content):
         # treat document references as relative links
         if link.startswith("doc:"):
             link = link[4:]
-        # Check if the link is relative (doesn't start with http(s) and doesn't contain a file extension)
-        if not link.startswith(('http:', 'https:')) and not '.' in link.split('/')[-1]:
-            link += '.md'
+
+        # Split the link at "#" to handle fragment identifiers
+        parts = link.split('#', 1)
+        base = parts[0]
+        fragment = '#' + parts[1] if len(parts) > 1 else ''
+
+        # Check if the link is relative (doesn't start with http(s)) and doesn't contain a file extension
+        if not base.startswith(('http:', 'https:')) and not '.' in base.split('/')[-1]:
+            base += '.md'
+
+        # Reassemble the link with ".md" before "#" if present
+        link = base + fragment
         return f'[{text}]({link})'
 
     # Replace links in the markdown content using the append_md_suffix function
